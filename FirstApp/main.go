@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -9,10 +10,16 @@ import (
 )
 
 func main() {
+	// DEfine variables reading by console
+	path := flag.String("path", "myapp.log", "The path to the log that should be chaecked")
+	level := flag.String("level", "ERROR", "Log leve search for. Options are DEBUG, INFO, ERROR and CRITICAL")
+	flag.Parse()
+
 	//Open a resource
-	f, err := os.Open("myapp.log")
+	f, err := os.Open(*path)
 	// Check if exist any error
 	if err != nil {
+
 		log.Fatal(err)
 	}
 	//close file opened
@@ -23,7 +30,7 @@ func main() {
 		if err != nil {
 			break
 		}
-		if strings.Contains(s, "ERROR") {
+		if strings.Contains(s, *level) {
 			fmt.Println(s)
 		}
 	}
