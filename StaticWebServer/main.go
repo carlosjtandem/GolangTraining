@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 )
@@ -13,8 +14,11 @@ func main() {
 		if len(names) == 1 {
 			name = names[0]
 		}
+		m := map[string]string{"name:": name}
+		enc := json.NewEncoder(w)
+		enc.Encode(m)
 
-		w.Write([]byte("Hello World " + name))
+		//w.Write([]byte("Hello World " + name))
 	})
 
 	err := http.ListenAndServe(":3000", nil)
